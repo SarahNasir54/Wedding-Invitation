@@ -19,27 +19,75 @@
 
 <script id="data" type="application/json">
 {
-  "intro": "Mr. and Mrs. M. Nasir cordially invite you to the wedding of their Beloved Daughter",
-  "n1": "Sarah Nasir",
-  "n2": "Syed M. Daud Hadi",
-  "f1": "Daughter of Muhammad Nasir Sb",
-  "f2": "Son of Syed Iftikhar Hussain Shah Sb",
-  "line": "Request the pleasure of your company at their wedding celebration",
-  "dateText": "22 · 12 · 2026",
-  "iso": "2026-12-22T17:00",
-  "venue": "Qasar e Ashraf Marquee, Sialkot",
-  "address": "Qasar-e-Ashraf Marquee Karimi Chak, Sialkot",
-  "mapQ": "Qasar-e-Ashraf Marquee Karimi Chak, Sialkot",
+  "intro": "Together with their families",
+  "n1": "Dania",
+  "n2": "Sami",
+  "f1": "Son of Mr. Father Name",
+  "f2": "Daughter of Mr. Father Name",
+  "line": "request the pleasure of your company at their wedding celebration",
+  "dateText": "20 · 05 · 2027",
+  "iso": "2027-05-20T17:00",
+  "venue": "Venue Name, City",
+  "address": "Street address, City",
+  "mapQ": "Venue Name City",
   "dress": "Formal Attire",
   "dressNote": "Dress beautifully, feel comfortable, and come ready to celebrate with us.",
-  "rsvpBy": "Kindly reply by 1 Dec 2026",
-  "wa": "923016182592",
-  "closing": "S & D",
-  "sched": [
-    ["1:00 PM", "Welcome", "Barat & greetings"],
-    ["2:00 PM", "Ceremony", "The vows"],
-    ["3:00 PM", "Lunch", "Lunch & toasts"],
-    ["4:00 PM", "Rukhsati", "Farewell & sendoff"]
+  "rsvpBy": "Kindly reply by 1 May 2027",
+  "wa": "920000000000",
+  "closing": "Dania & Sami",
+  "groups": {
+    "all": ["mehndi", "wedding", "walima"],
+    "mehndi-wedding": ["mehndi", "wedding"],
+    "wedding": ["wedding"],
+    "wedding-walima": ["wedding", "walima"]
+  },
+  "events": [
+    {
+      "id": "mehndi",
+      "name": "Mehndi",
+      "date": "18 May 2027",
+      "time": "7:00 PM",
+      "venue": "Mehndi Venue",
+      "address": "Street address, City",
+      "mapQ": "Mehndi Venue City",
+      "dress": "Yellow & Green",
+      "sched": [
+        ["7:00 PM", "Guests arrive", "Welcome drinks"],
+        ["8:00 PM", "Mehndi ceremony", "Henna & music"],
+        ["10:00 PM", "Dinner", "Dinner is served"]
+      ]
+    },
+    {
+      "id": "wedding",
+      "name": "Wedding",
+      "date": "20 May 2027",
+      "time": "5:00 PM",
+      "venue": "Wedding Venue",
+      "address": "Street address, City",
+      "mapQ": "Wedding Venue City",
+      "dress": "Formal Attire",
+      "sched": [
+        ["4:30 PM", "Welcome", "Drinks & greetings"],
+        ["5:00 PM", "Ceremony", "The vows"],
+        ["6:30 PM", "Dinner", "Dinner & toasts"],
+        ["9:00 PM", "Celebration", "Music & dancing"]
+      ]
+    },
+    {
+      "id": "walima",
+      "name": "Walima",
+      "date": "21 May 2027",
+      "time": "7:30 PM",
+      "venue": "Walima Venue",
+      "address": "Street address, City",
+      "mapQ": "Walima Venue City",
+      "dress": "Semi-Formal",
+      "sched": [
+        ["7:30 PM", "Guests arrive", "Welcome"],
+        ["8:30 PM", "Dinner", "Dinner is served"],
+        ["10:00 PM", "Farewell", "Thank you for coming"]
+      ]
+    }
   ]
 }
 </script>
@@ -47,15 +95,16 @@
 var D=JSON.parse(document.getElementById('data').textContent),$=function(i){return document.getElementById(i)};
 function e(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function sp(s){return Array.from(s).map(function(c,i){return'<span class="ch" style="--i:'+i+'">'+(c==' '?'&nbsp;':e(c))+'</span>'}).join('')}
+function tlf(s){return s&&s.length?'<div class="tl">'+s.map(function(r){return'<div><em>'+e(r[0])+'</em><strong>'+e(r[1])+'</strong>'+e(r[2])+'</div>'}).join('')+'</div>':''}
 function render(){
- var tl=D.sched.map(function(r){return'<div><em>'+e(r[0])+'</em><strong>'+e(r[1])+'</strong>'+e(r[2])+'</div>'}).join('');
+ var g=location.hash.slice(1),ids=(D.groups||{})[g];
+ var evs=D.events.filter(function(v){return!ids||ids.indexOf(v.id)>-1}).map(function(v){return'<div class="ev"><div class="cap">'+e(v.date)+' · '+e(v.time)+'</div><h2 class="script">'+e(v.name)+'</h2><p>'+e(v.venue)+'</p><p>'+e(v.address)+'</p>'+(v.dress?'<p class="cap" style="margin-top:14px">Dress: '+e(v.dress)+'</p>':'')+(v.sched&&v.sched.length?'<div class="cap" style="margin-top:22px">Schedule</div>':'')+tlf(v.sched)+'<a class="btn" href="https://maps.google.com/?q='+encodeURIComponent(v.mapQ)+'" target="_blank" rel="noopener">View on map</a></div>'}).join('');
  $('app').innerHTML=
- '<section class="sec"><img class="bis" src="images/bismillah.png" alt="Bismillah"><div class="cap">'+e(D.intro)+'</div><div class="names script"><div class="nm">'+sp(D.n1)+'</div><div class="fn">'+e(D.f1)+'</div><span class="amp">&amp;</span><div class="nm">'+sp(D.n2)+'</div><div class="fn">'+e(D.f2)+'</div></div><p>'+e(D.line)+'</p><p class="cap" style="margin-top:22px">'+e(D.dateText)+'</p><p>'+e(D.venue)+'</p><div class="cap dn">↓</div></section>'+
- '<section class="sec"><div class="cap">Countdown</div><h2 class="script">Are you ready?</h2><div class="cd"><div><b id="d">0</b><span>Days</span></div><div><b id="h">0</b><span>Hours</span></div><div><b id="m">0</b><span>Mins</span></div><div><b id="s">0</b><span>Secs</span></div></div></section>'+
- '<section class="sec"><div class="cap">Location</div><h2>'+e(D.venue)+'</h2><p>'+e(D.address)+'</p><a class="btn" href="https://maps.google.com/?q='+encodeURIComponent(D.mapQ)+'" target="_blank" rel="noopener">View on map</a></section>'+
- '<section class="sec"><div class="cap">From the beginning to the end</div><h2>Schedule</h2><div class="tl">'+tl+'</div></section>'+
+ '<section class="sec"><div class="cap">'+e(D.intro)+'</div><div class="names script"><div class="nm">'+sp(D.n1)+'</div><div class="fn">'+e(D.f1)+'</div><span class="amp">&amp;</span><div class="nm">'+sp(D.n2)+'</div><div class="fn">'+e(D.f2)+'</div></div><p>'+e(D.line)+'</p><p class="cap" style="margin-top:22px">'+e(D.dateText)+'</p><p>'+e(D.venue)+'</p><div class="cap dn">↓</div></section>'+
+ '<section class="sec"><div class="cap">Countdown to the wedding</div><h2 class="script">Are you ready?</h2><div class="cd"><div><b id="d">0</b><span>Days</span></div><div><b id="h">0</b><span>Hours</span></div><div><b id="m">0</b><span>Mins</span></div><div><b id="s">0</b><span>Secs</span></div></div></section>'+
+ '<section class="sec"><div class="cap">Join us for</div><h2>Celebrations</h2>'+evs+'</section>'+
  '<section class="sec"><div class="frame"><div class="cap">Dress code</div><h2 class="script">'+e(D.dress)+'</h2><p>'+e(D.dressNote)+'</p></div></section>'+
- '<section class="sec"><div class="cap">'+e(D.rsvpBy)+'</div><h2 class="script">RSVP</h2><p>We can’t wait to celebrate with you.</p><img class="seal2" src="'+$('seal').src+'" alt=""><br><a class="btn" href="https://wa.me/'+e(String(D.wa).replace(/\D/g,''))+'?text=Assalam-o-Alikum!%20Yes,I%20will%20attend." target="_blank" rel="noopener">Reply on WhatsApp</a><p style="margin-top:28px">With love,</p><div class="names script" style="font-size:clamp(30px,10vw,44px)">'+e(D.closing)+'</div></section>';
+ '<section class="sec"><div class="cap">'+e(D.rsvpBy)+'</div><h2 class="script">RSVP</h2><p>We can’t wait to celebrate with you.</p><img class="seal2" src="'+$('seal').src+'" alt=""><br><a class="btn" href="https://wa.me/'+e(String(D.wa).replace(/\D/g,''))+'?text=Hello!%20I%20will%20attend." target="_blank" rel="noopener">Reply on WhatsApp</a><p style="margin-top:28px">With love,</p><div class="names script" style="font-size:clamp(30px,10vw,44px)">'+e(D.closing)+'</div></section>';
  document.querySelectorAll('.sec > *:not(.names),.tl > div,.cd > div,.fn').forEach(function(x,i){x.classList.add('rv');x.style.setProperty('--i',x.parentNode.classList.contains('sec')?Array.prototype.indexOf.call(x.parentNode.children,x):i%4)});
 }
 var T,last={};
@@ -75,13 +124,15 @@ try{if(sessionStorage.getItem('skip')){sessionStorage.removeItem('skip');openEnv
 /* editor */
 var F=[['intro','Top line'],['n1','First name'],['n2','Second name'],['f1','Father line under first name (e.g. Son of Mr. Ahmed)'],['f2','Father line under second name (e.g. Daughter of Mr. Ali)'],['line','Invitation sentence'],['dateText','Date (as shown)'],['iso','Countdown date & time','datetime-local'],['venue','Venue name'],['address','Address'],['mapQ','Map search words'],['dress','Dress code'],['dressNote','Dress code note'],['rsvpBy','RSVP deadline text'],['wa','WhatsApp number (country code, digits only)'],['closing','Sign-off names']];
 function openEd(){var h='<h3>Edit your invitation</h3>';F.forEach(function(f){h+='<label>'+f[1]+'</label><input data-k="'+f[0]+'" type="'+(f[2]||'text')+'" value="'+e(D[f[0]])+'">'});
- h+='<label>Schedule (time · title · note)</label><div id="rows"></div><button class="bt o" id="add">+ ADD ROW</button><br><button class="bt" id="sv">SAVE &amp; PUBLISH</button><button class="bt o" id="cx">CANCEL</button><p id="st" style="font-size:15px"></p>';
- $('ep').innerHTML=h;$('ep').style.display='block';D.sched.forEach(row);
- $('add').onclick=function(){row(['','',''])};$('cx').onclick=function(){$('ep').style.display='none'};$('sv').onclick=save}
-function row(r){var d=document.createElement('div');d.className='row';d.innerHTML=[0,1,2].map(function(i){return'<input value="'+e(r[i])+'">'}).join('')+'<button class="bt o" style="margin:0;padding:0">✕</button>';d.lastChild.onclick=function(){d.remove()};$('rows').appendChild(d)}
+ h+='<label>Events (Mehndi, Wedding, Walima…)</label><div id="evs"></div><button class="bt o" id="addev">+ ADD EVENT</button><br><button class="bt" id="sv">SAVE &amp; PUBLISH</button><button class="bt o" id="cx">CANCEL</button><p id="st" style="font-size:15px"></p>';
+ $('ep').innerHTML=h;$('ep').style.display='block';D.events.forEach(evRow);
+ $('addev').onclick=function(){evRow({})};$('cx').onclick=function(){$('ep').style.display='none'};$('sv').onclick=save}
+function row(r,box){var d=document.createElement('div');d.className='row';d.innerHTML=[0,1,2].map(function(i){return'<input value="'+e(r[i])+'">'}).join('')+'<button class="bt o" style="margin:0;padding:0">✕</button>';d.lastChild.onclick=function(){d.remove()};box.appendChild(d)}
+var EK=[['id','Short ID (no spaces, e.g. mehndi)'],['name','Event name'],['date','Date'],['time','Time'],['venue','Venue'],['address','Address'],['mapQ','Map search words'],['dress','Dress code (optional)']];
+function evRow(v){var d=document.createElement('div');d.className='evbox';d.innerHTML=EK.map(function(k){return'<label>'+k[1]+'</label><input data-e="'+k[0]+'" value="'+e(v[k[0]])+'">'}).join('')+'<label>Schedule (time · title · note)</label><div class="sr"></div><button class="bt o ar" style="margin:6px 8px 0 0">+ ADD ROW</button><button class="bt o" style="margin:6px 0 0">REMOVE EVENT</button>';var sr=d.querySelector('.sr');(v.sched||[]).forEach(function(r){row(r,sr)});d.querySelector('.ar').onclick=function(){row(['','',''],sr)};d.lastChild.onclick=function(){d.remove()};$('evs').appendChild(d)}
 async function save(){$('st').textContent='Saving…';
  document.querySelectorAll('#ep [data-k]').forEach(function(i){D[i.dataset.k]=i.value});
- D.sched=Array.prototype.map.call(document.querySelectorAll('#rows .row'),function(r){return Array.prototype.map.call(r.querySelectorAll('input'),function(i){return i.value})});
+ D.events=Array.prototype.map.call(document.querySelectorAll('#evs .evbox'),function(b){var o={};b.querySelectorAll('input[data-e]').forEach(function(i){o[i.dataset.e]=i.value});o.sched=Array.prototype.map.call(b.querySelectorAll('.sr .row'),function(r){return Array.prototype.map.call(r.querySelectorAll('input'),function(i){return i.value})});return o});
  var c=document.documentElement.cloneNode(true);['app','ep','pearls'].forEach(function(i){c.querySelector('#'+i).innerHTML=''});
  var en=c.querySelector('#env');en.className='';en.removeAttribute('style');c.querySelector('body').className='lock';c.querySelector('#eb').removeAttribute('style');c.querySelector('#ep').removeAttribute('style');
  c.querySelector('#data').textContent=JSON.stringify(D).replace(/</g,'\\u003c');

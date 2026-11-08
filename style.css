@@ -498,8 +498,16 @@ p {
     filter: none!important;
   }
 }
-.bis{display:block;
-    width:min(70%,260px);
-    margin:0 auto 22px;
-    mix-blend-mode:multiply
+.ev {
+  background: var(--card);
+  border: 1px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: -7px;
+  padding: 30px 18px;
+  margin: 20px 0;
+}
+.evbox {
+  border: 1px solid var(--line);
+  padding: 4px 10px 10px;
+  margin: 12px 0;
 }
