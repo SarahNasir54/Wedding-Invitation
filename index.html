@@ -25,11 +25,7 @@
   "f1": "Daughter of Muhammad Nasir Sb",
   "f2": "Son of Syed Iftikhar Hussain Shah Sb",
   "line": "Request the pleasure of your company at their wedding celebration",
-  "dateText": "22 · 12 · 2026",
   "iso": "2026-12-22T17:00",
-  "venue": "Qasar e Ashraf Marquee, Sialkot",
-  "address": "Qasar-e-Ashraf Marquee Karimi Chak, Sialkot",
-  "mapQ": "Qasar-e-Ashraf Marquee Karimi Chak, Sialkot",
   "dress": "Formal Attire",
   "dressNote": "Dress beautifully, feel comfortable, and come ready to celebrate with us.",
   "rsvpBy": "Kindly reply by 1 Dec 2026",
@@ -47,9 +43,8 @@
       "name": "Mehndi",
       "date": "20 Dec 2026",
       "time": "7:00 PM",
-      "venue": "Mehndi Venue",
-      "address": "Street address, City",
-      "mapQ": "Mehndi Venue City",
+      "venue": "Home of the Bride",
+      "mapQ": "https://maps.app.goo.gl/NskFVZTpxjCMC5dA8",
       "dress": "Yellow & Green",
       "sched": [
         ["7:00 PM", "Guests arrive", "Welcome drinks"],
@@ -63,7 +58,6 @@
       "date": "22 Dec 2026",
       "time": "2:00 PM",
       "venue": "Qasar e Ashraf Marquee, Sialkot",
-      "address": "Qasar-e-Ashraf Marquee Karimi Chak, Sialkot",
       "mapQ": "Qasar-e-Ashraf Marquee Karimi Chak, Sialkot",
       "dress": "Semi-Formal",
       "sched": [
@@ -98,7 +92,7 @@ function sp(s){return Array.from(s).map(function(c,i){return'<span class="ch" st
 function tlf(s){return s&&s.length?'<div class="tl">'+s.map(function(r){return'<div><em>'+e(r[0])+'</em><strong>'+e(r[1])+'</strong>'+e(r[2])+'</div>'}).join('')+'</div>':''}
 function render(){
  var g=location.hash.slice(1),ids=(D.groups||{})[g];
- var evs=D.events.filter(function(v){return!ids||ids.indexOf(v.id)>-1}).map(function(v){return'<div class="ev"><div class="cap">'+e(v.date)+' · '+e(v.time)+'</div><h2 class="script">'+e(v.name)+'</h2><p>'+e(v.venue)+'</p><p>'+e(v.address)+'</p>'+(v.dress?'<p class="cap" style="margin-top:14px">Dress: '+e(v.dress)+'</p>':'')+(v.sched&&v.sched.length?'<div class="cap" style="margin-top:22px">Schedule</div>':'')+tlf(v.sched)+'<a class="btn" href="https://maps.google.com/?q='+encodeURIComponent(v.mapQ)+'" target="_blank" rel="noopener">View on map</a></div>'}).join('');
+ var evs=D.events.filter(function(v){return!ids||ids.indexOf(v.id)>-1}).map(function(v){return'<div class="ev"><div class="cap">'+e(v.date)+' · '+e(v.time)+'</div><h2 class="script">'+e(v.name)+'</h2><p>'+e(v.venue)+'</p><p>'+e(v.address)+'</p>'+(v.dress?'<p class="cap" style="margin-top:14px">Dress: '+e(v.dress)+'</p>':'')+(v.sched&&v.sched.length?'<div class="cap" style="margin-top:22px">Schedule</div>':'')+tlf(v.sched)+'<a class="btn" href="'+(v.mapQ.indexOf('http')==0?e(v.mapQ):'https://maps.google.com/?q='+encodeURIComponent(v.mapQ))+'" target="_blank" rel="noopener">View on map</a></div>'}).join('');
  $('app').innerHTML=
  '<section class="sec"><img class="bis" src="images/bismillah.png" alt="Bismillah"><div class="cap">'+e(D.intro)+'</div><div class="names script"><div class="nm">'+sp(D.n1)+'</div><div class="fn">'+e(D.f1)+'</div><span class="amp">&amp;</span><div class="nm">'+sp(D.n2)+'</div><div class="fn">'+e(D.f2)+'</div></div><p>'+e(D.line)+'</p><p class="cap" style="margin-top:22px">'+e(D.dateText)+'</p><p>'+e(D.venue)+'</p><div class="cap dn">↓</div></section>'+
  '<section class="sec"><div class="cap">Countdown to the wedding</div><h2 class="script">Are you ready?</h2><div class="cd"><div><b id="d">0</b><span>Days</span></div><div><b id="h">0</b><span>Hours</span></div><div><b id="m">0</b><span>Mins</span></div><div><b id="s">0</b><span>Secs</span></div></div></section>'+
